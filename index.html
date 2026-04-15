@@ -10,6 +10,12 @@
         box-sizing: border-box;
     }
 
+    .keys {
+        display: grid;
+        grid-template-columns: repeat(3, 80px);
+        gap: 1.5rem;
+    }
+
     .wrap {
         height: 100%;
         width: 100%;
@@ -22,8 +28,8 @@
     }
 
     .key {
-        width: 64px;
-        height: 64px;
+        width: 80px;
+        height: 80px;
         border: 0.5px solid #3a3a38;
         border-radius: 8px;
         background: #1a1a18;
@@ -70,8 +76,8 @@
         }
 
     .icon-btn {
-        width: 64px;
-        height: 64px;
+        width: 80px;
+        height: 80px;
         border: 0.5px solid #3a3a38;
         border-radius: 8px;
         background: #1a1a18;
@@ -90,6 +96,39 @@
         .icon-btn:active {
             transform: scale(0.91);
         }
+
+    @media (max-width: 600px) {
+        .key, .icon-btn {
+            width: 80px;
+            height: 80px;
+            font-size: 50px;
+        }
+
+        .keys {
+            display: grid;
+            grid-template-columns: repeat(3,80px);
+            gap: 2rem;
+        }
+
+        .slot {
+            width: 60px;
+            height: 70px;
+            font-size: 32px;
+        }
+
+        #slots {
+            gap: 3rem;
+        }
+
+        .wrap {
+            gap: 3rem;
+            padding: 1rem;
+        }
+
+        #msg {
+            font-size: 18px;
+        }
+    }
 </style>
 
 <div class="wrap">
@@ -100,7 +139,7 @@
         <div class="slot" id="s3"></div>
     </div>
 
-    <div style="display:grid;grid-template-columns:repeat(3,64px);gap:1rem;">
+    <div class="keys">
         <button class="key" onclick="press('A')">A</button>
         <button class="key" onclick="press('B')">B</button>
         <button class="key" onclick="press('C')">C</button>
@@ -112,7 +151,7 @@
         <button class="key" onclick="press('I')">I</button>
     </div>
 
-    <div style="display:flex;gap:1rem;align-items:center;">
+    <div style="display:flex;gap:2rem;align-items:center;">
         <button class="icon-btn" onclick="erase()">
             <svg width="20" height="16" viewBox="0 0 20 16" fill="none">
                 <path d="M7 1H18C19.1 1 20 1.9 20 3V13C20 14.1 19.1 15 18 15H7L1 8L7 1Z" stroke="#888780" stroke-width="1" fill="none" />
