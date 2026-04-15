@@ -1,14 +1,25 @@
 <!DOCTYPE html>
 <html>
+
 <style>
+    body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0;
+    }
+
   * { box-sizing: border-box; }
-  .wrap {
-      height: 100%;
-    background: #111110;
-    min-height: 420px;
-    display: flex; flex-direction: column; align-items: center;
-    justify-content: center; gap: 2rem;
-  }
+    .wrap {
+        height: 100%;
+        width: 100%;
+        background: #111110;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 3rem;
+    }
   .key {
     width: 64px; height: 64px;
     border: 0.5px solid #3a3a38;
@@ -50,14 +61,14 @@
 </style>
 
 <div class="wrap">
-  <div id="slots" style="display:flex;gap:16px;justify-content:center;">
+  <div id="slots" style="display:flex;gap:1rem;justify-content:center;">
     <div class="slot active" id="s0"></div>
     <div class="slot" id="s1"></div>
     <div class="slot" id="s2"></div>
     <div class="slot" id="s3"></div>
   </div>
 
-  <div style="display:grid;grid-template-columns:repeat(3,64px);gap:10px;">
+  <div style="display:grid;grid-template-columns:repeat(3,64px);gap:1rem;">
     <button class="key" onclick="press('A')">A</button>
     <button class="key" onclick="press('B')">B</button>
     <button class="key" onclick="press('C')">C</button>
@@ -69,7 +80,7 @@
     <button class="key" onclick="press('I')">I</button>
   </div>
 
-  <div style="display:flex;gap:10px;align-items:center;">
+  <div style="display:flex;gap:1rem;align-items:center;">
     <button class="icon-btn" onclick="erase()">
       <svg width="20" height="16" viewBox="0 0 20 16" fill="none">
         <path d="M7 1H18C19.1 1 20 1.9 20 3V13C20 14.1 19.1 15 18 15H7L1 8L7 1Z" stroke="#888780" stroke-width="1" fill="none"/>
@@ -160,4 +171,5 @@
     if (e.key === 'Enter') validate();
   });
 </script>
+
 </html>
