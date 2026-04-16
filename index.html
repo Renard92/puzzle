@@ -1,248 +1,265 @@
-<style>
-    body {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 0;
-    }
-
-    * {
-        box-sizing: border-box;
-    }
-
-    .keys {
-        display: grid;
-        grid-template-columns: repeat(3, 80px);
-        gap: 1.5rem;
-    }
-
-    .wrap {
-        height: 100%;
-        width: 100%;
-        background: #111110;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 3rem;
-    }
-
-    .key {
-        width: 80px;
-        height: 80px;
-        border: 0.5px solid #3a3a38;
-        border-radius: 8px;
-        background: #1a1a18;
-        font-size: 24px;
-        font-weight: 500;
-        color: #e8e6df;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-family: var(--font-sans);
-        transition: background 0.08s, transform 0.07s;
-        user-select: none;
-    }
-
-        .key:hover {
-            background: #252523;
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>Cadenas</title>
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
-        .key:active {
-            transform: scale(0.91);
-        }
-
-    .slot {
-        width: 48px;
-        height: 58px;
-        border-bottom: 2.5px solid #3a3a38;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 26px;
-        font-weight: 500;
-        font-family: var(--font-sans);
-        color: #e8e6df;
-        transition: border-color 0.15s;
-    }
-
-        .slot.active {
-            border-color: #888780;
-        }
-
-        .slot.wrong {
-            border-color: #E24B4A;
-        }
-
-    .icon-btn {
-        width: 80px;
-        height: 80px;
-        border: 0.5px solid #3a3a38;
-        border-radius: 8px;
-        background: #1a1a18;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: background 0.08s, transform 0.07s;
-        padding: 0;
-    }
-
-        .icon-btn:hover {
-            background: #252523;
-        }
-
-        .icon-btn:active {
-            transform: scale(0.91);
-        }
-
-    #msg {
-        white-space: pre-line;
-    }
-
-    @media (max-width: 600px) {
-        .key, .icon-btn {
-            width: 8rem;
-            height: 8rem;
-            font-size: 4rem;
-        }
-
-        .keys {
-            display: grid;
-            grid-template-columns: repeat(3,8rem);
-            gap: 2rem;
-        }
-
-        .slot {
-            width: 6rem;
-            height: 6rem;
-            font-size: 3rem;
-        }
-
-        #slots {
-            gap: 3rem;
+        html, body {
+            height: 100%;
+            width: 100%;
+            background: #111110;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .wrap {
-            gap: 3.5rem;
-            padding: 1rem;
+            width: 100%;
+            max-width: 480px;
+            padding: 2rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: clamp(1.5rem, 5vw, 3rem);
         }
 
-        #msg {
-            font-size: 4rem;
+        /* ── Slots ── */
+        #slots {
+            display: flex;
+            gap: clamp(0.75rem, 3vw, 1rem);
+            justify-content: center;
         }
-    }
-</style>
 
-<div class="wrap">
-    <div id="slots" style="display:flex;gap:1rem;justify-content:center;">
-        <div class="slot active" id="s0"></div>
-        <div class="slot" id="s1"></div>
-        <div class="slot" id="s2"></div>
-        <div class="slot" id="s3"></div>
-    </div>
-
-    <div class="keys">
-        <button class="key" onclick="press('A')">A</button>
-        <button class="key" onclick="press('B')">B</button>
-        <button class="key" onclick="press('C')">C</button>
-        <button class="key" onclick="press('D')">D</button>
-        <button class="key" onclick="press('E')">E</button>
-        <button class="key" onclick="press('F')">F</button>
-        <button class="key" onclick="press('G')">G</button>
-        <button class="key" onclick="press('H')">H</button>
-        <button class="key" onclick="press('I')">I</button>
-    </div>
-
-    <div style="display:flex;gap:2rem;align-items:center;">
-        <button class="icon-btn" onclick="erase()">
-            <svg width="20" height="16" viewBox="0 0 20 16" fill="none">
-                <path d="M7 1H18C19.1 1 20 1.9 20 3V13C20 14.1 19.1 15 18 15H7L1 8L7 1Z" stroke="#888780" stroke-width="1" fill="none" />
-                <line x1="10" y1="5.5" x2="16" y2="11.5" stroke="#888780" stroke-width="1.2" stroke-linecap="round" />
-                <line x1="16" y1="5.5" x2="10" y2="11.5" stroke="#888780" stroke-width="1.2" stroke-linecap="round" />
-            </svg>
-        </button>
-
-        <button class="icon-btn" onclick="validate()">
-            <svg width="32" height="26" viewBox="0 0 64 52" fill="none">
-                <path d="M6 8 L18 2 L22 13 L26 5 L32 10 L38 5 L42 13 L46 2 L58 8 L52 20 Q48 36 32 46 Q16 36 12 20 Z" fill="#E24B4A" />
-                <path d="M6 8 L18 2 L22 13" fill="#FAC775" />
-                <path d="M46 2 L58 8 L52 20" fill="#FAC775" />
-                <circle cx="24" cy="22" r="3" fill="#e8e6df" />
-                <circle cx="40" cy="22" r="3" fill="#e8e6df" />
-                <path d="M27 31 Q32 36 37 31" stroke="#e8e6df" stroke-width="2" fill="none" stroke-linecap="round" />
-                <ellipse cx="32" cy="34" rx="5" ry="3" fill="#F7C1C1" />
-            </svg>
-        </button>
-    </div>
-
-    <div id="msg" style="font-size:2rem;min-height:3rem;text-align:center;color:#888780;"></div>
-</div>
-
-<script>
-    const PASSWORD = ['H', 'C', 'F', 'I'];
-    const LEN = 4;
-    let input = [];
-    let locked = false;
-
-    function updateSlots() {
-        for (let i = 0; i < LEN; i++) {
-            const s = document.getElementById('s' + i);
-            s.textContent = input[i] || '';
-            s.className = 'slot';
-            if (i === input.length && !locked) s.classList.add('active');
+        .slot {
+            width: clamp(56px, 16vw, 72px);
+            height: clamp(64px, 18vw, 80px);
+            border-bottom: 2.5px solid #3a3a38;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: clamp(1.6rem, 6vw, 2rem);
+            font-weight: 500;
+            font-family: 'Georgia', serif;
+            color: #e8e6df;
+            transition: border-color 0.15s;
         }
-    }
 
-    function press(l) {
-        if (locked || input.length >= LEN) return;
-        input.push(l);
-        updateSlots();
-        document.getElementById('msg').textContent = '';
-    }
-
-    function erase() {
-        if (locked) return;
-        input.pop();
-        updateSlots();
-        document.getElementById('msg').textContent = '';
-    }
-
-    function validate() {
-        if (locked) return;
-        if (input.length < LEN) {
-            setMsg('Saisis encore ' + (LEN - input.length) + ' lettre(s).', '#888780');
-            return;
-        }
-        const ok = input.every((l, i) => l === PASSWORD[i]);
-        if (ok) {
-            setMsg('Bien joué, Caracal.\nLa carte se trouve dans un des placards de la cuisine.', '#5DCAA5');
-            locked = true;
-        } else {
-            for (let i = 0; i < LEN; i++) {
-                document.getElementById('s' + i).className = 'slot wrong';
+            .slot.active {
+                border-color: #888780;
             }
-            setMsg('Combinaison incorrecte', '#E24B4A');
-            setTimeout(() => {
-                input = [];
-                locked = false;
-                updateSlots();
-                document.getElementById('msg').textContent = '';
-            }, 1200);
+
+            .slot.wrong {
+                border-color: #E24B4A;
+            }
+
+        /* ── Keys ── */
+        .keys {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: clamp(0.6rem, 2.5vw, 1.2rem);
+            width: 100%;
+            max-width: 360px;
         }
-    }
 
-    function setMsg(txt, color) {
-        const m = document.getElementById('msg');
-        m.textContent = txt;
-        m.style.color = color;
-    }
+        .key {
+            aspect-ratio: 1;
+            border: 0.5px solid #3a3a38;
+            border-radius: clamp(6px, 2vw, 10px);
+            background: #1a1a18;
+            font-size: clamp(1.25rem, 5vw, 1.6rem);
+            font-weight: 500;
+            color: #e8e6df;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Georgia', serif;
+            transition: background 0.08s, transform 0.07s;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+            min-height: 56px;
+        }
 
-    document.addEventListener('keydown', e => {
-        const k = e.key.toUpperCase();
-        if ('ABCDEFGHI'.includes(k) && k.length === 1) press(k);
-        if (e.key === 'Backspace') erase();
-        if (e.key === 'Enter') validate();
-    });
-</script>
+            .key:hover {
+                background: #252523;
+            }
+
+            .key:active {
+                transform: scale(0.91);
+                background: #2e2e2b;
+            }
+
+        /* ── Action row ── */
+        .actions {
+            display: flex;
+            gap: clamp(1rem, 4vw, 2rem);
+            align-items: center;
+        }
+
+        .icon-btn {
+            width: clamp(56px, 16vw, 80px);
+            height: clamp(56px, 16vw, 80px);
+            border: 0.5px solid #3a3a38;
+            border-radius: clamp(6px, 2vw, 10px);
+            background: #1a1a18;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.08s, transform 0.07s;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+            .icon-btn:hover {
+                background: #252523;
+            }
+
+            .icon-btn:active {
+                transform: scale(0.91);
+            }
+
+            .icon-btn svg {
+                width: clamp(18px, 5vw, 28px);
+                height: auto;
+            }
+
+            .icon-btn.validate svg {
+                width: clamp(24px, 7vw, 36px);
+            }
+
+        /* ── Message ── */
+        #msg {
+            white-space: pre-line;
+            font-size: clamp(0.9rem, 3.5vw, 1.5rem);
+            min-height: 2.5rem;
+            text-align: center;
+            color: #888780;
+            font-family: 'Georgia', serif;
+            line-height: 1.5;
+            padding: 0 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <div id="slots">
+            <div class="slot active" id="s0"></div>
+            <div class="slot" id="s1"></div>
+            <div class="slot" id="s2"></div>
+            <div class="slot" id="s3"></div>
+        </div>
+
+        <div class="keys">
+            <button class="key" onclick="press('A')">A</button>
+            <button class="key" onclick="press('B')">B</button>
+            <button class="key" onclick="press('C')">C</button>
+            <button class="key" onclick="press('D')">D</button>
+            <button class="key" onclick="press('E')">E</button>
+            <button class="key" onclick="press('F')">F</button>
+            <button class="key" onclick="press('G')">G</button>
+            <button class="key" onclick="press('H')">H</button>
+            <button class="key" onclick="press('I')">I</button>
+        </div>
+
+        <div class="actions">
+            <button class="icon-btn" onclick="erase()" aria-label="Effacer">
+                <svg viewBox="0 0 20 16" fill="none">
+                    <path d="M7 1H18C19.1 1 20 1.9 20 3V13C20 14.1 19.1 15 18 15H7L1 8L7 1Z" stroke="#888780" stroke-width="1" fill="none" />
+                    <line x1="10" y1="5.5" x2="16" y2="11.5" stroke="#888780" stroke-width="1.2" stroke-linecap="round" />
+                    <line x1="16" y1="5.5" x2="10" y2="11.5" stroke="#888780" stroke-width="1.2" stroke-linecap="round" />
+                </svg>
+            </button>
+
+            <button class="icon-btn validate" onclick="validate()" aria-label="Valider">
+                <svg viewBox="0 0 64 52" fill="none">
+                    <path d="M6 8 L18 2 L22 13 L26 5 L32 10 L38 5 L42 13 L46 2 L58 8 L52 20 Q48 36 32 46 Q16 36 12 20 Z" fill="#E24B4A" />
+                    <path d="M6 8 L18 2 L22 13" fill="#FAC775" />
+                    <path d="M46 2 L58 8 L52 20" fill="#FAC775" />
+                    <circle cx="24" cy="22" r="3" fill="#e8e6df" />
+                    <circle cx="40" cy="22" r="3" fill="#e8e6df" />
+                    <path d="M27 31 Q32 36 37 31" stroke="#e8e6df" stroke-width="2" fill="none" stroke-linecap="round" />
+                    <ellipse cx="32" cy="34" rx="5" ry="3" fill="#F7C1C1" />
+                </svg>
+            </button>
+        </div>
+
+        <div id="msg"></div>
+    </div>
+
+    <script>
+        const PASSWORD = ['H', 'C', 'F', 'I'];
+        const LEN = 4;
+        let input = [];
+        let locked = false;
+
+        function updateSlots() {
+            for (let i = 0; i < LEN; i++) {
+                const s = document.getElementById('s' + i);
+                s.textContent = input[i] || '';
+                s.className = 'slot';
+                if (i === input.length && !locked) s.classList.add('active');
+            }
+        }
+
+        function press(l) {
+            if (locked || input.length >= LEN) return;
+            input.push(l);
+            updateSlots();
+            document.getElementById('msg').textContent = '';
+        }
+
+        function erase() {
+            if (locked) return;
+            input.pop();
+            updateSlots();
+            document.getElementById('msg').textContent = '';
+        }
+
+        function validate() {
+            if (locked) return;
+            if (input.length < LEN) {
+                setMsg('Saisis encore ' + (LEN - input.length) + ' lettre(s).', '#888780');
+                return;
+            }
+            const ok = input.every((l, i) => l === PASSWORD[i]);
+            if (ok) {
+                setMsg('Bien joué, Caracal.\nLa carte se trouve dans un des placards de la cuisine.', '#5DCAA5');
+                locked = true;
+            } else {
+                for (let i = 0; i < LEN; i++) {
+                    document.getElementById('s' + i).className = 'slot wrong';
+                }
+                setMsg('Combinaison incorrecte', '#E24B4A');
+                setTimeout(() => {
+                    input = [];
+                    locked = false;
+                    updateSlots();
+                    document.getElementById('msg').textContent = '';
+                }, 1200);
+            }
+        }
+
+        function setMsg(txt, color) {
+            const m = document.getElementById('msg');
+            m.textContent = txt;
+            m.style.color = color;
+        }
+
+        document.addEventListener('keydown', e => {
+            const k = e.key.toUpperCase();
+            if ('ABCDEFGHI'.includes(k) && k.length === 1) press(k);
+            if (e.key === 'Backspace') erase();
+            if (e.key === 'Enter') validate();
+        });
+    </script>
+</body>
+</html>
